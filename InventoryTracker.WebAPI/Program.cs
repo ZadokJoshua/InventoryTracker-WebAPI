@@ -1,4 +1,7 @@
+using InventoryTracker.WebAPI.DbContexts;
+using InventoryTracker.WebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -23,10 +26,20 @@ builder.Services.AddAuthentication("Bearer")
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Authentication:Issuer"],
             ValidAudience = builder.Configuration["Authentication:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecretKey"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("Authentication:SecretKey")))
+        };
     });
 
+
+builder.Services.AddDbContextPool<InventoryTrackerDbContext>(options =>
+{
+    options.UseSqlServer((builder.Configuration.GetConnectionString("Default")));
+});
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
+
 builder.Services.AddHealthChecks().AddSqlServer(builder.Configuration.GetConnectionString("Default"));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 var app = builder.Build();
 
