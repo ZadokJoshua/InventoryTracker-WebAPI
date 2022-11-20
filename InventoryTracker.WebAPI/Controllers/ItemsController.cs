@@ -41,7 +41,6 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPost]
-    // No route matches the supplied values.
     public async Task<IActionResult> AddItem(CreateItemDto item)
     {
         var itemToAdd = _mapper.Map<Item>(item);
@@ -56,4 +55,33 @@ public class ItemsController : ControllerBase
         createdItemToReturn);
     }
 
+    [HttpPut("{itemId}")]
+    public async Task<ActionResult> UpdateItem(int itemId, UpdateItemDto item)
+    {
+        var ItemEntity = await _repository.GetItemByIdAsync(itemId);
+        if (ItemEntity is null)
+        {
+            return NotFound();
+        }
+        _mapper.Map(item, ItemEntity);
+        await _repository.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    [HttpDelete("{itemId}")]
+    public async Task<IActionResult> DeleteItem(int itemId)
+    {
+        var itemEntity = await _repository.GetItemByIdAsync(itemId);
+
+        if (itemEntity is null)
+        {
+            return NotFound();
+        }
+
+        _repository.DeleteItem(itemEntity);
+        await _repository.SaveChangesAsync();
+
+        return NoContent();
+    }
 }

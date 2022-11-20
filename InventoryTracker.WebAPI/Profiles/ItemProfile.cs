@@ -10,5 +10,6 @@ public class ItemProfile : Profile
 	{
 		CreateMap<Item, ItemDto>();
 		CreateMap<CreateItemDto, Item>();
+		CreateMap<UpdateItemDto, Item>();
 	}
 }
