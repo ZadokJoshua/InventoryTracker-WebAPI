@@ -38,8 +38,10 @@ builder.Services.AddDbContextPool<InventoryTrackerDbContext>(options =>
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 
 builder.Services.AddHealthChecks().AddSqlServer(builder.Configuration.GetConnectionString("Default"));
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddScoped<ICsvService, CsvService>();
 
 var app = builder.Build();
 
