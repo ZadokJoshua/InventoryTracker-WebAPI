@@ -8,7 +8,6 @@ namespace InventoryTracker.WebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[AllowAnonymous]
 public class FilesController : ControllerBase
 {
     private readonly ICsvService _csvService;

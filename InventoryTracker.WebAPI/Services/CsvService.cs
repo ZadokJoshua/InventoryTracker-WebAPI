@@ -15,7 +15,7 @@ public class CsvService : ICsvService
     /// CSV write method
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="records">Records is a list of an object from the database.</param>
+    /// <param name="records"></param>
     public void WriteCSV<T>(IEnumerable<T> records)
     {
         using (StreamWriter writer = new StreamWriter(csvPath))

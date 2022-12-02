@@ -12,7 +12,6 @@ namespace InventoryTracker.WebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[AllowAnonymous]
 public class ItemsController : ControllerBase
 {
     private readonly IItemRepository _repository;
